@@ -24,7 +24,7 @@ isNaN('blabla'); // true
 isNaN(undefined); // true
 ```
 
-## 2. 文本溢出省略
+## 2. CSS 实现文本溢出省略
 
 - 单行文本：
 
