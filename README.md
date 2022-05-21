@@ -1,3 +1,7 @@
+---
+theme: fancy
+---
+
 # Learning-notes
 
 前端学习笔记 &amp; 踩坑日记 &amp; 冷知识，记录一些工作中遇到的问题，长期更新
@@ -112,3 +116,48 @@ clipboardWriteText('balabalabala')
 // 推荐
 [1, 2, 3].includes(1); // true
 ```
+
+## 5. 高性能向下取整
+
+核心是利用了位运算：
+
+```js
+// 不推荐
+const num = parseFloat(1.2);
+const num = parseFloat('1.2');
+
+// 推荐
+const num = 1.2 >>> 0;
+const num = '1.2' >>> 0;
+```
+
+## 6. 高性能判断奇偶
+
+跟上条一样，也是利用位运算：
+
+```js
+// 不推荐
+if (num % 2) {
+  console.log(`${num}是奇数`);
+} else {
+  console.log(`${num}是偶数`);
+}
+
+// 推荐
+if (num & 1) {
+  console.log(`${num}是奇数`);
+} else {
+  console.log(`${num}是偶数`);
+}
+```
+
+## 7. SEO 优化
+
+- 最好用 ssr 框架，比如 react 的 next，或者 vue 的 nuxt
+- HTML 标签语义化，在适当的位置使用适当的标签
+- a 标签都记得设置链接，并且要加上 title 属性加以说明
+- img 标签都记得加 alt 属性
+- 谨慎使用 display: none，因为搜索引擎会过滤掉 display: none 中的内容
+- meta 信息包含 title、keywords、description，有的页面需要单独定制，有的需要通用
+- 页面在 html 标签上加 lang="zh-CN"属性，表明文档的语言
+- 每个页面最好都要有且仅有一个 h1 标题，尤其是不需要登录的页面（若不喜欢 h1 的默认样式可以通过 CSS 设置）
