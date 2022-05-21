@@ -84,3 +84,15 @@ const clipboardWriteText = copyText => {
   });
 };
 ```
+
+使用：
+
+```js
+clipboardWriteText('balabalabala')
+  .then(() => {
+    console.log('复制成功');
+  })
+  .catch(() => {
+    console.log('复制失败');
+  });
+```
