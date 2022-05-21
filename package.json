@@ -1,0 +1,19 @@
+{
+  "name": "learning-notes",
+  "version": "1.0.0",
+  "description": "前端学习笔记 &amp; 踩坑日记，记录一些工作中遇到的问题，长期更新",
+  "main": "index.js",
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/li-jia-nan/Learning-notes.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/li-jia-nan/Learning-notes/issues"
+  },
+  "homepage": "https://github.com/li-jia-nan/Learning-notes#readme"
+}
