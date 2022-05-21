@@ -179,3 +179,21 @@ data:text/html,
 <h1>hello</h1>
 ;
 ```
+
+## 9. 冷知识：你不知道的 setTimeout
+
+- 冷知识：最大延迟时间 2147483647
+
+大多数浏览器都是以 32 个 bit 来存储延时值的，32bit 最大只能存放的数字是 2147483647，换算一下相当于 24.8 天。那么这就意味着 setTimeout 设置的延迟值大于做个数字就会溢出。
+
+```js
+setTimeout(() => {
+  console.log('123');
+}, 2147483647);
+```
+
+- 冷知识：setTimeout 的第一个参数回调函数也可以是字符串类型
+
+```js
+setTimeout(`console.log('balabala');`, 0);
+```
