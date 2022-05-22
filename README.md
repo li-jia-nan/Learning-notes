@@ -232,7 +232,7 @@ Math.max(); // -Infinity
 - **函数节流**
 
 ```js
-// 方法一：定时器实现
+// 方法一：定时器
 const throttle = function (fn, delay) {
   let timer = null;
   return function () {
@@ -279,3 +279,7 @@ function debounce(func, wait) {
   };
 }
 ```
+
+## 11. 冷知识：pr（pull Request）和 mr（merge Request）有什么区别？
+
+答：没有区别。
