@@ -226,3 +226,56 @@ Math.max(); // -Infinity
 - **《你不知道的 JavaScript（上卷）》**
 
   内部的函数持有对一个值的引用，引擎会调用这个函数，而词法作用域在这个过程中保持完整，这就是闭包。换句话说：当函数可以记住并访问所在的词法作用域，即使函数是在当前词法作用域外执行，这时就产生了闭包。
+
+## 12. 节流与防抖
+
+- **函数节流**
+
+```js
+// 方法一：定时器实现
+const throttle = function (fn, delay) {
+  let timer = null;
+  return function () {
+    const context = this;
+    const args = arguments;
+    if (!timer) {
+      timer = setTimeout(() => {
+        fn.apply(context, args);
+        clearTimeout(timer);
+      }, delay);
+    }
+  };
+};
+
+// 方法二：时间戳
+const throttle2 = function (fn, delay) {
+  let preTime = Date.now();
+  return function () {
+    const context = this;
+    let args = arguments;
+    let doTime = Date.now();
+    if (doTime - preTime >= delay) {
+      fn.apply(context, args);
+      preTime = Date.now();
+    }
+  };
+};
+```
+
+- **函数防抖**
+
+```js
+function debounce(func, wait) {
+  let timeout;
+  return function () {
+    let context = this;
+    let args = arguments;
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+    timeout = setTimeout(() => {
+      func.apply(context, args);
+    }, wait);
+  };
+}
+```
