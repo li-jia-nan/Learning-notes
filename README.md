@@ -282,4 +282,24 @@ function debounce(func, wait) {
 
 ## 11. 冷知识：pr（pull Request）和 mr（merge Request）有什么区别？
 
-答：没有区别。
+答：**没有区别。**
+
+一般我们执行分支合并，需要执行下面两个命令：
+
+```ts
+git pull // 拉取需要合并的分支
+git merge // 合并进目标分支
+```
+
+Github 选择了第一个命令来命名，叫 `Pull Request`。
+
+Gitlab 选择了最后一个命令来命名，叫 `Merge Request`。
+
+反正都不咋地……一个好名字还是非常非常重要的，这起的什么狗屁名字
+
+正确的起名应该是：
+
+```ts
+Merge Request // 请求把代码合并进去
+Push Request // 请求把代码推进去
+```
