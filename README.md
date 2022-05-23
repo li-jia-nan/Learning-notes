@@ -334,3 +334,19 @@ const isBrowser = () =>
   typeof window.document !== 'undefined' &&
   typeof window.document.createElement !== 'undefined';
 ```
+
+## 14. 实现一个 compose 函数
+
+```ts
+const compose = (...funcs) => {
+  if (funcs.length === 0) {
+    return arg => arg;
+  }
+  if (funcs.length === 1) {
+    return funcs[0];
+  }
+  return funcs.reduce((a, b) => {
+    return (...args) => a(b(...args));
+  });
+};
+```
