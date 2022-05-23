@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      textarea {
+        width: 200px;
+        height: 200px;
+        padding: 0;
+        margin: 0;
+        line-height: 1.2;
+        text-align: center;
+        border: 1px solid black;
+        box-sizing: border-box;
+        word-break: break-all;
+        resize: none;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="text"></textarea>
+    <script>
+      function getLinesCount($textArea, lineHeight) {
+        $textArea.style.paddingTop = 0;
+        var h0 = $textArea.style.height;
+        $textArea.style.height = 0;
+        var h1 = $textArea.scrollHeight;
+        $textArea.style.height = h0;
+        return Math.floor(h1 / lineHeight);
+      }
+      function update() {
+        const textArea = document.querySelector('#text');
+        const lineHeight = Number(window.getComputedStyle(textArea).lineHeight.slice(0, -2));
+        const h = textArea.getBoundingClientRect().height;
+        const lines = getLinesCount(textArea, lineHeight);
+        const top = h / 2 - (lineHeight * lines) / 2;
+        textArea.style.paddingTop = `${top}px`;
+      }
+      window.onload = update;
+    </script>
+  </body>
+</html>

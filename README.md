@@ -427,3 +427,67 @@ function div(arg1, arg2) {
 顺便说一下，关于处理精度问题的解决方案，目前市面上已经有了很多较为成熟的库，比如 `bignumber.js`，`decimal.js`，以及 `big.js` 等，这些库不仅解决了浮点数的运算精度问题，还支持了大数运算，并且修复了原生 toFixed 结果不准确的问题。我们可以根据自己的需求来选择对应的工具。
 
 最后提醒一下：这玩意儿也就面试的时候写一下，强烈建议业务中还是用现成的库，出了问题我可不负责的嗷，唉，我好菜啊
+
+## 16. 垂直居中 textarea
+
+### 难点
+
+根本就他妈的不能通过 css 来实现输入的垂直居中
+
+网上的那些傻逼就会复制答案，操他妈的 flex 都来了，什么傻卵玩意儿 🥲
+
+只能用 js 来实现
+
+### 思路
+
+通过动态调整 paddingTop 来偏移文本内容。
+
+需要注意的是，多行的时候，需要计算行数
+
+可以通过 set Height 0，然后滚动高度就是输入文字的总高度，算完之后把高度复原
+
+**行数 = 文字总高度 / 行高**
+
+所以，**设置行高很重要**，默认是 normal，normal 是字符串，没办法计算的，所以自己手动设一个 lineheight 吧
+
+```html
+<textarea id="text"></textarea>
+```
+
+```css
+textarea {
+  width: 200px;
+  height: 200px;
+  padding: 0;
+  margin: 0;
+  line-height: 1.2;
+  text-align: center;
+  border: 1px solid black;
+  box-sizing: border-box;
+  word-break: break-all;
+  resize: none;
+}
+```
+
+```js
+// 获取行数，注意需要先把paddingtop置0，不然scrollHeight会把padding算进去
+function getLinesCount($textArea, lineHeight) {
+  $textArea.style.paddingTop = 0;
+  var h0 = $textArea.style.height;
+  $textArea.style.height = 0;
+  var h1 = $textArea.scrollHeight;
+  $textArea.style.height = h0;
+  return Math.floor(h1 / lineHeight);
+}
+
+function update() {
+  const textArea = document.querySelector('#text');
+  const lineHeight = Number(window.getComputedStyle(textArea).lineHeight.slice(0, -2));
+  const h = textArea.getBoundingClientRect().height;
+  const lines = getLinesCount(textArea, lineHeight);
+  const top = h / 2 - (lineHeight * lines) / 2;
+  textArea.style.paddingTop = `${top}px`;
+}
+
+window.onload = update;
+```
