@@ -429,3 +429,5 @@ function div(arg1, arg2) {
   return (int1 / int2) * 10 ** (digits2 - digits1);
 }
 ```
+
+顺便说一下，关于处理精度问题的解决方案，目前已经有了很多较为成熟的库，比如 `bignumber.js`，`decimal.js`，以及 `big.js` 等，这些库不仅解决了浮点数的运算精度问题，还支持了大数运算，并且修复了原生 toFixed 结果不准确的问题。我们可以根据自己的需求来选择对应的工具。
