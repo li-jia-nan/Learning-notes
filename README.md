@@ -350,3 +350,82 @@ const compose = (...funcs) => {
   });
 };
 ```
+
+## 15. 处理数字精度问题
+
+```js
+//加
+function add(arg1, arg2) {
+  let digits1, digits2, maxDigits;
+  try {
+    digits1 = arg1.toString().split('.')[1].length || 0;
+  } catch {
+    digits1 = 0;
+  }
+  try {
+    digits2 = arg2.toString().split('.')[1].length || 0;
+  } catch {
+    digits2 = 0;
+  }
+  maxDigits = 10 ** Math.max(digits1, digits2);
+  return (arg1 * maxDigits + arg2 * maxDigits) / maxDigits;
+}
+```
+
+```js
+//减
+function sub(arg1, arg2) {
+  let digits1, digits2, maxDigits;
+  try {
+    digits1 = arg1.toString().split('.')[1].length || 0;
+  } catch {
+    digits1 = 0;
+  }
+  try {
+    digits2 = arg2.toString().split('.')[1].length || 0;
+  } catch {
+    digits2 = 0;
+  }
+  maxDigits = 10 ** Math.max(digits1, digits2);
+  return (arg1 * maxDigits - arg2 * maxDigits) / maxDigits;
+}
+```
+
+```js
+//乘
+function mul(arg1, arg2) {
+  let digits = 0;
+  const s1 = arg1.toString();
+  const s2 = arg2.toString();
+  try {
+    digits += s1.split('.')[1].length;
+  } catch {}
+  try {
+    digits += s2.split('.')[1].length;
+  } catch {}
+  return (Number(s1.replace('.', '')) * Number(s2.replace('.', ''))) / 10 ** digits;
+}
+```
+
+```js
+//除
+function div(arg1, arg2) {
+  let int1 = 0;
+  let int2 = 0;
+  let digits1;
+  let digits2;
+  try {
+    digits1 = arg1.toString().split('.')[1].length || 0;
+  } catch (e) {
+    digits1 = 0;
+  }
+  try {
+    digits2 = arg2.toString().split('.')[1].length || 0;
+  } catch (e) {
+    digits2 = 0;
+  }
+  int1 = Number(arg1.toString().replace('.', ''));
+  int2 = Number(arg2.toString().replace('.', ''));
+  return (int1 / int2) * 10 ** (digits2 - digits1);
+}
+```
