@@ -399,7 +399,7 @@ function mul(arg1, arg2) {
   try {
     digits += s2.split('.')[1].length;
   } catch {}
-  return (Number(s1.replace('.', '')) * Number(s2.replace('.', ''))) / 10 ** digits;
+  return (Number(s1.replace(/\./, '')) * Number(s2.replace(/\./, ''))) / 10 ** digits;
 }
 
 // 除
@@ -420,7 +420,7 @@ function div(arg1, arg2) {
   }
   int1 = Number(arg1.toString().replace(/\./, ''));
   int2 = Number(arg2.toString().replace(/\./, ''));
-  return mul(int1 / int2, 10) ** (digits2 - digits1);
+  return ((int1 / int2) * 10) ** (digits2 - digits1 || 1);
 }
 ```
 
