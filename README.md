@@ -540,5 +540,6 @@ const getQueryString = url => {
   return obj;
 };
 
-getQueryString(src); // { id: "123", name: "aaa", phone: "12345" }
+getQueryString(src);
+// { id: "123", name: "aaa", phone: "12345" }
 ```
