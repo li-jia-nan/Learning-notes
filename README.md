@@ -552,4 +552,59 @@ const isArray = Array.isArray;
 const flatDeep = arr => {
   return arr.reduce((acc, val) => acc.concat(isArray(val) ? flatDeep(val) : val), []);
 };
+
+flatDeep([1, 2, [3, [4, [5, 6]]]]);
+// [1, 2, 3, 4, 5, 6]
+```
+
+## 21. 算法 —— 有效的括号
+
+```ts
+// map解法
+const isValid = (s: string): boolean => {
+  if (s.length & 1) {
+    return false;
+  }
+  const stack: string[] = [];
+  const map = new Map<string, string>();
+  map.set('(', ')');
+  map.set('{', '}');
+  map.set('[', ']');
+  for (let i = 0; i < s.length; i++) {
+    const c = s[i];
+    if (map.has(c)) {
+      stack.push(c);
+    } else {
+      const t = stack.at(-1);
+      if (map.get(t) === c) {
+        stack.pop();
+      } else {
+        return false;
+      }
+    }
+  }
+  return stack.length === 0;
+};
+
+// 栈解法
+const isValid2 = (s: string): boolean => {
+  if (s.length & 1) {
+    return false;
+  }
+  const stack: string[] = [];
+  for (let i = 0; i < s.length; i++) {
+    const c = s[i];
+    if (['(', '[', '{'].includes(c)) {
+      stack.push(c);
+    } else {
+      const t = stack.at(-1);
+      if ((t === '(' && c === ')') || (t === '[' && c === ']') || (t === '{' && c === '}')) {
+        stack.pop();
+      } else {
+        return false;
+      }
+    }
+  }
+  return stack.length === 0;
+};
 ```
