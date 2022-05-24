@@ -543,3 +543,13 @@ const getQueryString = url => {
 getQueryString(src);
 // { id: "123", name: "aaa", phone: "12345" }
 ```
+
+## 20. 手写 Array.flat(Infinity)
+
+```js
+const isArray = Array.isArray;
+
+const flatDeep = arr => {
+  return arr.reduce((acc, val) => acc.concat(isArray(val) ? flatDeep(val) : val), []);
+};
+```
