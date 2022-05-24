@@ -470,12 +470,12 @@ textarea {
 
 ```js
 // 获取行数，注意需要先把paddingtop置0，不然scrollHeight会把padding算进去
-function getLinesCount($textArea, lineHeight) {
-  $textArea.style.paddingTop = 0;
-  const h0 = $textArea.style.height;
-  $textArea.style.height = 0;
-  const h1 = $textArea.scrollHeight;
-  $textArea.style.height = h0;
+function getLinesCount(textEle, lineHeight) {
+  textEle.style.paddingTop = 0;
+  const h0 = textEle.style.height;
+  textEle.style.height = 0;
+  const h1 = textEle.scrollHeight;
+  textEle.style.height = h0;
   return Math.floor(h1 / lineHeight);
 }
 
