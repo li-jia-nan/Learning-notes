@@ -519,3 +519,26 @@ window.onload = update;
 | **优点** | 适合多页面开发，易于学习，易于使用，接口优雅 | 可以打包一切资源，适配各种模块系统 |
 | **缺点** | 在大页面应用方面输出乏力，而且对流行的大页面技术有些难以处理（比如 vue 但文件组织，使用 gulp 处理就会很困难，而 webpack 一个 loader 就能轻松搞定） | 不适合多页应用开发，灵活度高但同时配置很繁琐复杂，"打包一切"这个优点对于 HTTP1.1 尤其重要，因为所有资源打包在一起能明显减少浏览器访问页面时的请求数量，从而减少应用程序必须等待的时间。但这个有点可能会随着 HTTP/2 的流行而变得不那么突出，因为 HTTP/2 的多路复用可以有效解决客服端并行请求的瓶颈问题。 |
 | **结论** | 浏览器多页应用（MPA）首选方案 | 浏览器单页应用（SPA）首选方案 |
+
+## 19. 手写 getQueryString
+
+```js
+const src = 'https://www.baidu.com/?id=123&name=aaa&phone=12345';
+
+const getQueryString = url => {
+  if (!url.includes('?')) {
+    return null;
+  }
+  const [, search] = url.split('?');
+  const obj = {};
+  search.split('&').forEach(item => {
+    if (item.includes('=')) {
+      const [key, val] = item.split('=');
+      Reflect.set(obj, key, val);
+    }
+  });
+  return obj;
+};
+
+getQueryString(src); // { id: "123", name: "aaa", phone: "12345" }
+```
