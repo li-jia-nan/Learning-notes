@@ -491,7 +491,7 @@ function update() {
 window.onload = update;
 ```
 
-## 17. interface 和 type 的区别
+## 17. interface 和 type 的区
 
 ### 相同点：
 
