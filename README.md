@@ -560,7 +560,7 @@ flatDeep([1, 2, [3, [4, [5, 6]]]]);
 ## 21. 算法 — 有效的括号
 
 ```ts
-// map解
+// map解法
 const isValid = (s: string): boolean => {
   if (s.length & 1) {
     return false;
