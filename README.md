@@ -1005,7 +1005,7 @@ function reconcileChildrenArray(
 2. 如果省略`key`或者直接使用列表`index`作为`key`, 表现是一样的（`key=null`时, 会采用`index`代替`key`进行比较）. 在新旧对象比较时, 只能按照`index`顺序进行比较, 复用的成功率大大降低, 大列表会出现性能问题.
    - 例如一个排序的场景: `oldFiber`队列有 100 个, `newChildren`队列有 100 个（但是打乱了顺序）. 由于没有设置`key`, 就会导致`newChildren`中的第 n 个必然要和`oldFiber`队列中的第 n 个进行比较, 这时它们的`key`完全一致（都是`null`）, 由于顺序变了导致`props`不同, 所以新的`fiber`完全要走更新逻辑（理论上比新创建一个的性能还要耗）.
    - 同样是排序场景可以出现的 bug: 上面的场景只是性能差（又不是不能用）, `key`使用不当还会造成`bug`
-   - 还是上述排序场景, 只是列表中的每一个`item`内部又是一个组件, 且其中某一个`item`使用了局部状态（比如`class组件`里面的`state`）. 当第二次`render`时, `fiber`对象不会`delete`只会`update`导致新组件的`state`还沿用了上一次相同位置的旧组件的`state`, 造成了状态混乱.
+   - 还是上述排序场景, 只是列表中的每一个`item`内部又是一个组件, 且其中某一个`item`使用了局部状态（比如`class组件`里面的`state`）. 当第二次`render`时, `fiber`对象不会`delete`只会`update`导致新组件的`state`还沿用了上一次相同位置的旧组件的`state`，造成了状态混乱.
 
 ### 总结
 
