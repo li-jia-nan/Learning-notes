@@ -769,7 +769,7 @@ function FiberNode(tag: WorkTag, pendingProps: mixed, key: null | string, mode: 
 1. `reactElement`中的`key`是由`jsx`编译而来, `key`是由开发者直接控制的（即使是动态生成, 那也是直接控制）
 2. `fiber`对象是由`react`内核在运行时创建的, 所以`fiber.key`也是`react`内核进行设置的, 程序员没有直接控制.
 
-注意: `fiber.key`是`reactElement.key`的拷贝, 他们是完全相等的(包括`null`默认值).
+注意: `fiber.key`是`reactElement.key`的拷贝, 他们是完全相等的（包括`null`默认值）。
 
 接下来分析`fiber`创建, 剖析`key`在这个过程中的具体使用情况.
 
