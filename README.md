@@ -637,7 +637,70 @@ const isValid2 = (s: string): boolean => {
 </div>
 ```
 
-## 23. 老掉牙的面试题： React diff 是什么？可以省略吗？
+## 23. 判断对象中是否存在某个属性的几种方法
+
+### 1. hasOwnProperty()
+
+`hasOwnProperty`方法会返回一个布尔值，指示对象自身属性中是否具有指定的属性（不包含原型上的属性）：
+
+```js
+({ a: 1 }.hasOwnProperty('a')); // true
+({ a: 1 }.hasOwnProperty('toString')); // false
+```
+
+### 2. in 操作符
+
+`in 操作符`会返回一个布尔值，指示对象自身属性中是否具有指定的属性（包含原型上的属性）：
+
+```js
+'a' in { a: 1 }; // true
+'toString' in { a: 1 }; // true
+```
+
+### 3. Reflect.has()
+
+`Reflect.has`作用与`in 操作符`相同：
+
+```js
+Reflect.has({ a: 1 }, 'a'); // true
+Reflect.has({ a: 1 }, 'toString'); // true
+```
+
+## 24. 实现深拷贝
+
+### 1. 简易版
+
+这个方法有些缺点，懂的都懂，不再废话了
+
+```js
+const newData = JSON.parse(JSON.stringify(data));
+```
+
+### 2. 加强版
+
+```js
+const deepClone = obj => {
+  const ans = Array.isArray(obj) ? [] : {};
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      ans[key] = obj[key] && typeof obj[key] === 'object' ? deepClone(obj[key]) : obj[key];
+    }
+  }
+  return ans;
+};
+
+const newData = deepClone(data);
+```
+
+### 3. 终极版
+
+```js
+import { cloneDeep } from 'lodash';
+
+const newData = cloneDeep(data);
+```
+
+## 25. 老掉牙的面试题： React diff 是什么？可以省略吗？
 
 回答：可以省略，但是强烈不推荐（废话文学，面试的时候直接说不可以就好了）
 
