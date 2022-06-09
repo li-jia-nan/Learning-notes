@@ -329,13 +329,46 @@ const isPlainObject = (obj: any): boolean => {
 ## 13. 判断是否在浏览器环境
 
 ```ts
-const isBrowser = () =>
-  typeof window !== 'undefined' &&
-  typeof window.document !== 'undefined' &&
-  typeof window.document.createElement !== 'undefined';
+const isBrowser = () => {
+  return (
+    typeof window !== 'undefined' &&
+    typeof window.document !== 'undefined' &&
+    typeof window.document.createElement !== 'undefined'
+  );
+};
 ```
 
-## 14. 实现一个 compose 函数
+## 14. 判断是否为移动端
+
+```js
+const userAgent = () => {
+  const u = navigator.userAgent;
+  return {
+    trident: u.includes('Trident'),
+    presto: u.includes('Presto'),
+    webKit: u.includes('AppleWebKit'),
+    gecko: u.includes('Gecko') && !u.includes('KHTML'),
+    mobile: !!u.match(/AppleWebKit.*Mobile.*/),
+    ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),
+    android: u.includes('Android') || u.includes('Adr'),
+    iPhone: u.includes('iPhone'),
+    iPad: u.includes('iPad'),
+    webApp: !u.includes('Safari'),
+    weixin: u.includes('MicroMessenger'),
+    qq: !!u.match(/\sQQ/i),
+  };
+};
+
+const isMobile = () => {
+  if (!isBrowser()) {
+    return false;
+  }
+  const { mobile, android, ios } = userAgent();
+  return mobile || android || ios || document.body.clientWidth < 750;
+};
+```
+
+## 15. 实现一个 compose 函数
 
 ```ts
 const compose = (...funcs) => {
@@ -351,7 +384,7 @@ const compose = (...funcs) => {
 };
 ```
 
-## 15. 处理数字精度问题
+## 16. 处理数字精度问题
 
 ```js
 // 加
@@ -427,7 +460,7 @@ function div(arg1, arg2) {
 
 最后提醒一下：这玩意儿也就面试的时候写一下，强烈建议业务中还是用现成的库，出了问题我可不负责的嗷，唉，我好菜啊
 
-## 16. 垂直居中 textarea
+## 17. 垂直居中 textarea
 
 ### 难点
 
@@ -491,7 +524,7 @@ function update() {
 window.onload = update;
 ```
 
-## 17. interface 和 type 的区别
+## 18. interface 和 type 的区别
 
 ### 相同点：
 
@@ -506,7 +539,7 @@ window.onload = update;
 - type 重名会抛出错误，interface 重名会产生合并
 - interface 性能比 type 好一点（社区有讨论过这点，争议比较大，不管对不对，我贴出来兄弟们自己判断吧）
 
-## 18. gulp 和 webpack 的区别
+## 19. gulp 和 webpack 的区别
 
 |  | **gulp** | **webpack** |
 | :-: | :-: | :-: |
@@ -520,7 +553,7 @@ window.onload = update;
 | **缺点** | 在大页面应用方面输出乏力，而且对流行的大页面技术有些难以处理（比如 vue 但文件组织，使用 gulp 处理就会很困难，而 webpack 一个 loader 就能轻松搞定） | 不适合多页应用开发，灵活度高但同时配置很繁琐复杂，"打包一切"这个优点对于 HTTP1.1 尤其重要，因为所有资源打包在一起能明显减少浏览器访问页面时的请求数量，从而减少应用程序必须等待的时间。但这个有点可能会随着 HTTP/2 的流行而变得不那么突出，因为 HTTP/2 的多路复用可以有效解决客服端并行请求的瓶颈问题。 |
 | **结论** | 浏览器多页应用（MPA）首选方案 | 浏览器单页应用（SPA）首选方案 |
 
-## 19. 手写 getQueryString
+## 20. 手写 getQueryString
 
 ```js
 const src = 'https://www.baidu.com/?id=123&name=aaa&phone=12345';
@@ -544,7 +577,7 @@ getQueryString(src);
 // { id: "123", name: "aaa", phone: "12345" }
 ```
 
-## 20. 手写 Array.flat(Infinity)
+## 21. 手写 Array.flat(Infinity)
 
 ```js
 const isArray = Array.isArray;
@@ -557,7 +590,7 @@ flatDeep([1, 2, [3, [4, [5, 6]]]]);
 // [1, 2, 3, 4, 5, 6]
 ```
 
-## 21. 算法 — 有效的括号
+## 22. 算法 — 有效的括号
 
 ```ts
 // map解法
@@ -609,7 +642,7 @@ const isValid2 = (s: string): boolean => {
 };
 ```
 
-## 22. 图片加载失败处理方式
+## 23. 图片加载失败处理方式
 
 图片为空很容易判断：
 
@@ -637,7 +670,7 @@ const isValid2 = (s: string): boolean => {
 </div>
 ```
 
-## 23. 判断对象中是否存在某个属性的几种方法
+## 24. 判断对象中是否存在某个属性的几种方法
 
 ### 1. hasOwnProperty()
 
@@ -666,7 +699,7 @@ Reflect.has({ a: 1 }, 'a'); // true
 Reflect.has({ a: 1 }, 'toString'); // true
 ```
 
-## 24. 实现深拷贝
+## 25. 实现深拷贝
 
 ### 1. 简易版
 
@@ -712,7 +745,7 @@ import { cloneDeep } from 'lodash';
 const newData = cloneDeep(data);
 ```
 
-## 25. 让指定方法最多只能被调用 1 次
+## 26. 让指定方法最多只能被调用 1 次
 
 ```js
 function before(n, func) {
@@ -747,7 +780,7 @@ initialize(); // 无效
 initialize(); // 无效
 ```
 
-## 26. 老掉牙的面试题： React diff 是什么？可以省略吗？
+## 27. 老掉牙的面试题： React diff 是什么？可以省略吗？
 
 回答：可以省略，但是强烈不推荐（废话文学，面试的时候直接说不可以就好了）
 
