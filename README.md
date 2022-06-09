@@ -692,7 +692,19 @@ const deepClone = obj => {
 const newData = deepClone(data);
 ```
 
-### 3. 终极版
+### 3. 非主流版
+
+`structuredClone`：原生 js 的深拷贝，因为是新出的，所以兼容差的要死，不建议使用
+
+```js
+const newData = structuredClone(data);
+```
+
+目前只有浏览器可以用，node 环境还不支持，并且只有最新几个版本的浏览器才能用
+
+对了，而且这个方法不能拷贝函数，遇到函数会直接报错，嘻嘻嘻
+
+### 4. 终极版
 
 ```js
 import { cloneDeep } from 'lodash';
@@ -706,20 +718,20 @@ const newData = cloneDeep(data);
 
 ### 下面看满分答案：
 
-- key 的作用就是服务于 diff 算法, 是节点是否可以复用的首要判定条件
-- 如果省略了 key, 内部会默认使用 null, 在列表节点有排序需求的情况下, 会造成性能损耗
+- key 的作用就是服务于 diff 算法，是节点是否可以复用的首要判定条件
+- 如果省略了 key，内部会默认使用 null，在列表节点有排序需求的情况下，会造成性能损耗
 
-在 react 组件开发的过程中, `key`是一个常用的属性值, 多用于列表开发. 这里从源码的角度, 分析`key`在`react`内部是如何使用的, `key`是否可以省略.
+在 react 组件开发的过程中，`key`是一个常用的属性值，多用于列表开发. 这里从源码的角度，分析`key`在`react`内部是如何使用的，`key`是否可以省略.
 
 ### ReactElement 对象
 
-我们在编程时直接书写的`jsx`代码, 实际上是会被编译成 ReactElement 对象, 所以`key`是`ReactElement对象`的一个属性.
+我们在编程时直接书写的`jsx`代码，实际上是会被编译成 ReactElement 对象，所以`key`是`ReactElement对象`的一个属性.
 
 #### 构造函数
 
-在把`jsx`转换成`ReactElement对象`的语法时, 有一个兼容问题. 会根据编译器的不同策略, 编译成 2 种方案.
+在把`jsx`转换成`ReactElement对象`的语法时，有一个兼容问题. 会根据编译器的不同策略，编译成 2 种方案.
 
-1. 最新的转译策略: 会将`jsx`语法的代码, 转译成`jsx()`函数包裹
+1. 最新的转译策略: 会将`jsx`语法的代码，转译成`jsx()`函数包裹
 
    `jsx`函数: 只保留与`key`相关的代码（其余源码这里不讨论）
 
@@ -756,7 +768,7 @@ const newData = cloneDeep(data);
    }
    ```
 
-2. 传统的转译策略: 会将`jsx`语法的代码, 转译成[React.createElement()函数包裹](https://github.com/facebook/react/blob/v17.0.2/packages/react/src/ReactElement.js#L126-L146)
+2. 传统的转译策略: 会将`jsx`语法的代码，转译成[React.createElement()函数包裹](https://github.com/facebook/react/blob/v17.0.2/packages/react/src/ReactElement.js#L126-L146)
 
    `React.createElement()函数`: 只保留与`key`相关的代码（其余源码这里不讨论）
 
@@ -786,11 +798,11 @@ const newData = cloneDeep(data);
    }
    ```
 
-可以看到无论采取哪种编译方式, 核心逻辑都是一致的:
+可以看到无论采取哪种编译方式，核心逻辑都是一致的:
 
 1. `key`的默认值是`null`
-2. 如果外界有显式指定的`key`, 则将`key`转换成字符串类型.
-3. 调用`ReactElement`这个构造函数, 并且将`key`传入.
+2. 如果外界有显式指定的`key`，则将`key`转换成字符串类型.
+3. 调用`ReactElement`这个构造函数，并且将`key`传入.
 
 ```js
 // ReactElement的构造函数: 本节就先只关注其中的key属性
@@ -807,13 +819,13 @@ const ReactElement = function (type, key, ref, self, source, owner, props) {
 };
 ```
 
-源码看到这里, 虽然还只是个皮毛, 但是起码知道了`key`的默认值是`null`. 所以任何一个`reactElement`对象, 内部都是有`key`值的, 只是一般情况下（对于单节点）很少显式去传入一个 key.
+源码看到这里，虽然还只是个皮毛，但是起码知道了`key`的默认值是`null`. 所以任何一个`reactElement`对象，内部都是有`key`值的，只是一般情况下（对于单节点）很少显式去传入一个 key.
 
 ### Fiber 对象
 
-`react`的核心运行逻辑, 是一个从输入到输出的过程（回顾`reconciler 运作流程`）. 编程直接操作的`jsx`是`reactElement对象`,我们的数据模型是`jsx`, 而`react内核`的数据模型是`fiber树形结构`. 所以要深入认识`key`还需要从`fiber`的视角继续来看.
+`react`的核心运行逻辑，是一个从输入到输出的过程（回顾`reconciler 运作流程`）. 编程直接操作的`jsx`是`reactElement对象`，我们的数据模型是`jsx`，而`react内核`的数据模型是`fiber树形结构`. 所以要深入认识`key`还需要从`fiber`的视角继续来看.
 
-`fiber`对象是在`fiber树构造循环`过程中构造的, 其构造函数如下:
+`fiber`对象是在`fiber树构造循环`过程中构造的，其构造函数如下:
 
 ```js
 function FiberNode(tag: WorkTag, pendingProps: mixed, key: null | string, mode: TypeOfMode) {
@@ -827,22 +839,22 @@ function FiberNode(tag: WorkTag, pendingProps: mixed, key: null | string, mode: 
 }
 ```
 
-可以看到, `key`也是`fiber`对象的一个属性. 这里和`reactElement`的情况有所不同:
+可以看到，`key`也是`fiber`对象的一个属性. 这里和`reactElement`的情况有所不同:
 
-1. `reactElement`中的`key`是由`jsx`编译而来, `key`是由开发者直接控制的（即使是动态生成, 那也是直接控制）
-2. `fiber`对象是由`react`内核在运行时创建的, 所以`fiber.key`也是`react`内核进行设置的, 程序员没有直接控制.
+1. `reactElement`中的`key`是由`jsx`编译而来，`key`是由开发者直接控制的（即使是动态生成，那也是直接控制）
+2. `fiber`对象是由`react`内核在运行时创建的，所以`fiber.key`也是`react`内核进行设置的，程序员没有直接控制.
 
-注意: `fiber.key`是`reactElement.key`的拷贝, 他们是完全相等的（包括`null`默认值）。
+注意: `fiber.key`是`reactElement.key`的拷贝，他们是完全相等的（包括`null`默认值）。
 
-接下来分析`fiber`创建, 剖析`key`在这个过程中的具体使用情况.
+接下来分析`fiber`创建，剖析`key`在这个过程中的具体使用情况.
 
-`fiber`对象的创建发生在`fiber树构造循环`阶段中, 具体来讲, 是在`reconcileChildren`调和函数中进行创建.
+`fiber`对象的创建发生在`fiber树构造循环`阶段中，具体来讲，是在`reconcileChildren`调和函数中进行创建.
 
 ### reconcileChildren 调和函数
 
-`reconcileChildren`是`react`中的一个`明星`函数, 最热点的问题就是`diff算法原理`, 事实上, `key`的作用完全就是为了`diff算法`服务的.
+`reconcileChildren`是`react`中的一个`明星`函数，最热点的问题就是`diff算法原理`，事实上，`key`的作用完全就是为了`diff算法`服务的.
 
-> 注意: 这里只分析 key 相关的逻辑, 对于 diff 函数的算法原理不做详细分析
+> 注意: 这里只分析 key 相关的逻辑，对于 diff 函数的算法原理不做详细分析
 
 调和函数源码（只摘取了部分代码）:
 
@@ -912,7 +924,7 @@ function reconcileSingleElement(
     }
     child = child.sibling;
   }
-  // 重点2: fiber节点创建, `key`是随着`element`对象被传入`fiber`的构造函数
+  // 重点2: fiber节点创建，`key`是随着`element`对象被传入`fiber`的构造函数
   const created = createFiberFromElement(element, returnFiber.mode, lanes);
   created.ref = coerceRef(returnFiber, currentFirstChild, element);
   created.return = returnFiber;
@@ -920,17 +932,17 @@ function reconcileSingleElement(
 }
 ```
 
-可以看到, 对于单节点来讲, 有 2 个重点:
+可以看到，对于单节点来讲，有 2 个重点:
 
 1. `key`是单节点是否复用的第一判断条件（第二判断条件是`type`是否改变，比如`div`改变为`span`）.
-   - 如果`key`不同, 其他条件是完全不看的
-2. 在新建节点时, `key`随着`element`对象被传入`fiber`的构造函数.
+   - 如果`key`不同，其他条件是完全不看的
+2. 在新建节点时，`key`随着`element`对象被传入`fiber`的构造函数.
 
 所以到这里才是`key`的最核心作用, 是调和函数中, 针对单节点是否可以复用的`第一判断条件`.
 
 对于单节点来讲, `key`是可以省略的, `react`内部会设置成默认值`null`. 在进行`diff`时, 由于`null === null`为`true`, 前后`render`的`key`是一致的, 可以进行复用比较.
 
-如果单节点显式设置了`key`, 且两次`render`时的`key`如果不一致, 则无法复用.
+如果单节点显式设置了`key`，且两次`render`时的`key`如果不一致，则无法复用.
 
 #### 多节点
 
