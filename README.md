@@ -694,7 +694,7 @@ const newData = deepClone(data);
 
 ### 3. 非主流版
 
-`structuredClone`：原生 js 的深拷贝，因为是新出的，所以兼容差的要死，不建议使用
+[`structuredClone`](https://developer.mozilla.org/zh-CN/docs/Web/API/structuredClone)：原生 js 的深拷贝，因为是新出的，所以兼容差的要死，不建议使用
 
 ```js
 const newData = structuredClone(data);
