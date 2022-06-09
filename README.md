@@ -815,7 +815,7 @@ const isObject = value => {
 };
 
 const isNative = value => {
-  return isObject(value) && reIsNative.test(value);
+  return isObject(value) && reIsNative.test(value.toString());
 };
 
 // 使用：
