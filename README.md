@@ -780,7 +780,52 @@ initialize(); // 无效
 initialize(); // 无效
 ```
 
-## 27. 关于代码质量的一些哲学问题
+## 27. 判断是否为原生函数
+
+- lodash 源码中是这样实现的：
+
+```js
+const reIsNative = RegExp(
+  `^${Function.prototype.toString
+    .call(Object.prototype.hasOwnProperty)
+    .replace(/[\\^$.*+?()[\]{}|]/g, '\\$&')
+    .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?')}$`
+);
+
+const isObject = value => {
+  return value && ['object', 'function'].includes(typeof value);
+};
+
+const isNative = value => {
+  return isObject(value) && reIsNative.test(value);
+};
+
+// 使用：
+isNative([].push); // true
+isNative(myFunction); // false
+```
+
+- vue 源码中是这样实现的：
+
+```js
+const reIsNative = /native code/;
+
+const isObject = value => {
+  return value && ['object', 'function'].includes(typeof value);
+};
+
+const isNative = value => {
+  return isObject(value) && reIsNative.test(value);
+};
+
+// 使用：
+isNative([].push); // true
+isNative(myFunction); // false
+```
+
+不知道 lodash 为啥实现的如此复杂，可能是因为 lodash 太老了吧，都多少年了……
+
+## 28. 关于代码质量的一些哲学问题
 
     前言：之所以讨论这个话题，是因为在掘金上看到了一篇关于设计模式的文章，但是文章的作者为了封装而封装，为了职责链模式而硬套了，把原本很正常的逻辑变的更加复杂，于是引起了评论区一些大佬的讨论。
 
@@ -798,7 +843,7 @@ initialize(); // 无效
 
 6、其他评论说的对，这个场景的模式选择的不对，`策略模式`更加合适。
 
-## 28. 老掉牙的面试题： React diff 是什么？可以省略吗？
+## 29. 老掉牙的面试题： React diff 是什么？可以省略吗？
 
 回答：可以省略，但是强烈不推荐（废话文学，面试的时候直接说不可以就好了）
 
