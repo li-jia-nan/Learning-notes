@@ -712,7 +712,42 @@ import { cloneDeep } from 'lodash';
 const newData = cloneDeep(data);
 ```
 
-## 25. 老掉牙的面试题： React diff 是什么？可以省略吗？
+## 25. 让指定方法最多只能被调用 1 次
+
+```js
+function before(n, func) {
+  if (typeof n !== 'number') {
+    throw new TypeError('Expected a number');
+  }
+  if (typeof func !== 'function') {
+    throw new TypeError('Expected a function');
+  }
+  let result;
+  return function (...args) {
+    if (--n >= 0) {
+      result = func.apply(this, args);
+    }
+    if (n < 0) {
+      func = null;
+    }
+    return result;
+  };
+}
+
+function once(func) {
+  return before(1, func);
+}
+
+// 使用：
+
+const initialize = once(doSomething);
+
+initialize(); // 只有第一次有效
+initialize(); // 无效
+initialize(); // 无效
+```
+
+## 26. 老掉牙的面试题： React diff 是什么？可以省略吗？
 
 回答：可以省略，但是强烈不推荐（废话文学，面试的时候直接说不可以就好了）
 
