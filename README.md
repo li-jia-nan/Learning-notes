@@ -368,7 +368,19 @@ const isMobile = () => {
 };
 ```
 
-## 15. 实现一个 compose 函数
+## 15. 判断页面是否在 iframe 框架里
+
+```js
+const isInIframe = () => {
+  return (
+    self !== top ||
+    self.frameElement?.tagName === 'IFRAME' ||
+    window.frames.length !== parent.frames.length
+  );
+};
+```
+
+## 16. 实现一个 compose 函数
 
 ```ts
 const compose = (...funcs) => {
@@ -384,7 +396,7 @@ const compose = (...funcs) => {
 };
 ```
 
-## 16. 处理数字精度问题
+## 17. 处理数字精度问题
 
 ```js
 // 加
@@ -460,7 +472,7 @@ function div(arg1, arg2) {
 
 最后提醒一下：这玩意儿也就面试的时候写一下，强烈建议业务中还是用现成的库，出了问题我可不负责的嗷，唉，我好菜啊
 
-## 17. 垂直居中 textarea
+## 18. 垂直居中 textarea
 
 ### 难点
 
@@ -524,7 +536,7 @@ function update() {
 window.onload = update;
 ```
 
-## 18. interface 和 type 的区别
+## 19. interface 和 type 的区别
 
 ### 相同点：
 
@@ -539,7 +551,7 @@ window.onload = update;
 - type 重名会抛出错误，interface 重名会产生合并
 - interface 性能比 type 好一点（社区有讨论过这点，争议比较大，不管对不对，我贴出来兄弟们自己判断吧）
 
-## 19. gulp 和 webpack 的区别
+## 20. gulp 和 webpack 的区别
 
 |  | **gulp** | **webpack** |
 | :-: | :-: | :-: |
@@ -553,7 +565,7 @@ window.onload = update;
 | **缺点** | 在大页面应用方面输出乏力，而且对流行的大页面技术有些难以处理（比如 vue 但文件组织，使用 gulp 处理就会很困难，而 webpack 一个 loader 就能轻松搞定） | 不适合多页应用开发，灵活度高但同时配置很繁琐复杂，"打包一切"这个优点对于 HTTP1.1 尤其重要，因为所有资源打包在一起能明显减少浏览器访问页面时的请求数量，从而减少应用程序必须等待的时间。但这个有点可能会随着 HTTP/2 的流行而变得不那么突出，因为 HTTP/2 的多路复用可以有效解决客服端并行请求的瓶颈问题。 |
 | **结论** | 浏览器多页应用（MPA）首选方案 | 浏览器单页应用（SPA）首选方案 |
 
-## 20. 手写 getQueryString
+## 21. 手写 getQueryString
 
 ```js
 const src = 'https://www.baidu.com/?id=123&name=aaa&phone=12345';
@@ -577,7 +589,7 @@ getQueryString(src);
 // { id: "123", name: "aaa", phone: "12345" }
 ```
 
-## 21. 手写 Array.flat(Infinity)
+## 22. 手写 Array.flat(Infinity)
 
 ```js
 const isArray = Array.isArray;
@@ -590,7 +602,7 @@ flatDeep([1, 2, [3, [4, [5, 6]]]]);
 // [1, 2, 3, 4, 5, 6]
 ```
 
-## 22. 算法 — 有效的括号
+## 23. 算法 — 有效的括号
 
 ```ts
 // map解法
@@ -642,7 +654,7 @@ const isValid2 = (s: string): boolean => {
 };
 ```
 
-## 23. 图片加载失败处理方式
+## 24. 图片加载失败处理方式
 
 图片为空很容易判断：
 
@@ -670,7 +682,7 @@ const isValid2 = (s: string): boolean => {
 </div>
 ```
 
-## 24. 判断对象中是否存在某个属性的几种方法
+## 25. 判断对象中是否存在某个属性的三种方法
 
 ### 1. hasOwnProperty()
 
@@ -699,7 +711,7 @@ Reflect.has({ a: 1 }, 'a'); // true
 Reflect.has({ a: 1 }, 'toString'); // true
 ```
 
-## 25. 实现深拷贝
+## 26. 实现深拷贝
 
 ### 1. 简易版
 
@@ -745,9 +757,13 @@ import { cloneDeep } from 'lodash';
 const newData = cloneDeep(data);
 ```
 
-## 26. 让指定方法最多只能被调用 1 次
+## 27. 让指定方法最多只能被调用 1 次
 
 ```js
+/**
+ * @param n 最多调用次数
+ * @param func 回调函数
+ */
 function before(n, func) {
   if (typeof n !== 'number') {
     throw new TypeError('Expected a number');
@@ -780,7 +796,7 @@ initialize(); // 无效
 initialize(); // 无效
 ```
 
-## 27. 判断是否为原生函数
+## 28. 判断是否为原生函数
 
 - lodash 源码中是这样实现的：
 
@@ -825,7 +841,7 @@ isNative(myFunction); // false
 
 不知道 lodash 为啥实现的如此复杂，可能是因为 lodash 太老了吧，都多少年了……
 
-## 28. TCP 与 UDP 的区别
+## 29. TCP 与 UDP 的区别
 
 ### 相同点
 
@@ -845,7 +861,7 @@ isNative(myFunction); // false
 | 提供校验和、确认应答、序列号、超时重传、连接管理、流量控制、拥塞控制等功能。 | 只在 IP 的数据报服务之上增加了很少一点的功能，即端口的功能和差错检测的功能。 |
 | 适用于要求可靠传输的应用，如文件传输等 | 适用于实时应用，如网络电话、视频会议、直播等 |
 
-## 29. 关于代码质量引发的一些哲学问题
+## 30. 关于代码质量引发的一些哲学问题
 
     前言：之所以讨论这个话题，是因为在掘金上看到了一篇关于设计模式的文章，但是文章的作者为了封装而封装，为了职责链模式而硬套了，把原本很正常的逻辑变的更加复杂，于是引起了评论区一些大佬的讨论。
 
@@ -853,7 +869,7 @@ isNative(myFunction); // false
 
 1、为了封装而封装，硬套设计模式，这就是代码越写越乱的典型（负优化）
 
-2、大筐里有 4 种萝卜，作者觉得这样很乱，于是往大筐里又套 4 个小筐，把萝卜放到小筐里（犯了形而上学的错误，只是对代码量进行了转移 ，并没有减少，甚至为了转移后的联系，增加了很多额外代码）。
+2、大筐里有 4 种萝卜，作者觉得这样很乱，于是往大筐里又套 4 个小筐，把萝卜放到小筐里（犯了形而上学的错误，只是对代码量进行了转移，并没有减少，甚至为了转移后的联系，增加了很多额外代码）。
 
 3、奥卡姆剃刀原理，`如无必要、勿增实体`，没有必要把一段简单的 `switch case` 或者几行 `if else` 判断，直接在拦截器里可以搞定的事情，拆成 n 个子模块，而且为了联系上下文还要写一堆无用代码来桥接。
 
@@ -863,7 +879,7 @@ isNative(myFunction); // false
 
 6、其他评论说的对，这个场景的模式选择的不对，`策略模式`更加合适。
 
-## 30. 老掉牙的面试题： React diff 是什么？可以省略吗？
+## 31. 老掉牙的面试题：React diff 是什么？可以省略吗？
 
 回答：可以省略，但是强烈不推荐（废话文学，面试的时候直接说不可以就好了）
 
