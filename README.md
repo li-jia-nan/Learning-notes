@@ -1108,8 +1108,6 @@ const string = num.toString();
    }
    ```
 
-````
-
 2. 传统的转译策略: 会将`jsx`语法的代码，转译成[React.createElement()函数包裹](https://github.com/facebook/react/blob/v17.0.2/packages/react/src/ReactElement.js#L126-L146)
 
    `React.createElement()函数`: 只保留与`key`相关的代码（其余源码这里不讨论）
@@ -1455,4 +1453,3 @@ function reconcileChildrenArray(
 ### 总结
 
 在`react`中`key`是服务于`diff算法`, 它的默认值是`null`, 在`diff算法`过程中, 新旧节点是否可以复用, 首先就会判定`key`是否相同, 其后才会进行其他条件的判定. 在源码中, 针对多节点（即列表组件）如果直接将`key`设置成`index`和不设置任何值的处理方案是一样的, 如果使用不当, 轻则造成性能损耗, 重则引起状态混乱造成 bug.
-````
