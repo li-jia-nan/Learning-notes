@@ -1457,3 +1457,96 @@ function reconcileChildrenArray(
 ### 总结
 
 在`react`中`key`是服务于`diff算法`, 它的默认值是`null`, 在`diff算法`过程中, 新旧节点是否可以复用, 首先就会判定`key`是否相同, 其后才会进行其他条件的判定. 在源码中, 针对多节点（即列表组件）如果直接将`key`设置成`index`和不设置任何值的处理方案是一样的, 如果使用不当, 轻则造成性能损耗, 重则引起状态混乱造成 bug.
+
+## 36. 扁平数组转 tree 结构
+
+要求：输入 list，输出对应的 result
+
+```ts
+interface ArrayItem {
+  id: number;
+  name: string;
+  pid: number;
+}
+
+interface TreeItem extends ArrayItem {
+  children?: TreeItem[];
+}
+
+// 输入
+const list: ArrayItem[] = [
+  { id: 1, name: '部门1', pid: 0 },
+  { id: 2, name: '部门2', pid: 1 },
+  { id: 3, name: '部门3', pid: 1 },
+  { id: 4, name: '部门4', pid: 3 },
+  { id: 5, name: '部门5', pid: 4 },
+];
+
+// 输出
+const result: TreeItem[] = [
+  {
+    id: 1,
+    name: '部门1',
+    pid: 0,
+    children: [
+      {
+        id: 2,
+        name: '部门2',
+        pid: 1,
+      },
+      {
+        id: 3,
+        name: '部门3',
+        pid: 1,
+        children: [
+          {
+            id: 4,
+            name: '部门4',
+            pid: 3,
+            children: [
+              {
+                id: 5,
+                name: '部门5',
+                pid: 4,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+];
+```
+
+实现：
+
+```ts
+const arrToTree = (arr: ArrayItem[]): TreeItem[] => {
+  const res: TreeItem[] = [];
+  const map = new Map<PropertyKey, TreeItem>();
+  arr.forEach(item => {
+    map.set(item.id, item);
+  });
+  arr.forEach(item => {
+    const parent = map.get(item.pid);
+    if (parent) {
+      if (parent?.children) {
+        parent.children.push(item);
+      } else {
+        parent.children = [item];
+      }
+    } else {
+      res.push(item);
+    }
+  });
+  return res;
+};
+```
+
+测试结果：
+
+```ts
+const ans = arrToTree(list);
+
+console.log(JSON.stringify(ans) === JSON.stringify(result)); // true
+```
