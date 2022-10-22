@@ -180,9 +180,9 @@ data:text/html,
 ;
 ```
 
-## 9. 冷知识：你不知道的 setTimeout
+## 9. 冷知识：你不知道的 setTimeout/setInterval
 
-- 冷知识：最大延迟时间 24.8 天
+- 冷知识一：最大延迟时间 24.8 天
 
 大多数浏览器都是以 32 个 bit 来存储延时值的，32bit 最大只能存放的数字是 2147483647，换算一下相当于 24.8 天。那么这就意味着 setTimeout 设置的延迟值大于做个数字就会溢出。
 
@@ -192,11 +192,15 @@ setTimeout(() => {
 }, 2147483647);
 ```
 
-- 冷知识：setTimeout 的第一个参数回调函数也可以是字符串类型
+- 冷知识二：setTimeout/setInterval 的第一个参数不一定是函数，也可以是字符串类型
 
 ```js
 setTimeout(`console.log('balabala');`, 0);
 ```
+
+- 冷知识三：clearTimeout 和 clearInterval 可以互换。
+
+setTimeout 和 setInterval 共用一个编号池，技术上，clearTimeout 和 clearInterval 可以互换（也就是说，可以用 clearTimeout 取消 setInterval 定时器，也可以用 clearInterval 取消 setTimeout 定时器）。但是，为了避免混淆，不要混用取消定时函数。关于这一点 MDN 中有相关的解释。
 
 ## 10. 冷知识：Math.min 和 Math.max
 
@@ -662,13 +666,13 @@ const isValid2 = (s: string): boolean => {
 
 图片为空很容易判断：
 
-```tsx
+```jsx
 <img src={imgSrc || defaultSrc} />
 ```
 
 图片加载失败，使用图片自带的 error 事件处理即可：
 
-```tsx
+```jsx
 <img
   src={imgSrc}
   onError={event => {
@@ -679,7 +683,7 @@ const isValid2 = (s: string): boolean => {
 
 注意`有些`加载 404 的图片不会走`error` 事件，而是走了`load`事件，那么我们可以通过直接添加一个占位底图来实现，这样如果能加载就会覆盖占位图，如果不能加载那就会显示底下的底图
 
-```tsx
+```jsx
 <div>
   <img src={imgSrc} />
   <img src={defaultSrc} />
