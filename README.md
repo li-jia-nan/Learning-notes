@@ -268,17 +268,15 @@ const throttle2 = function (fn: Function, delay: number) {
 
 - **函数防抖**
 
-```js
-function debounce(func, wait) {
-  let timeout;
+```ts
+function debounce(func: Function, wait: number) {
+  let timeout: NodeJS.Timer | null = null;
   return function () {
-    let context = this;
-    let args = arguments;
     if (timeout) {
       clearTimeout(timeout);
     }
     timeout = setTimeout(() => {
-      func.apply(context, args);
+      func.apply(this, arguments);
     }, wait);
   };
 }
