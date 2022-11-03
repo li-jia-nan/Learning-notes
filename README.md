@@ -1554,3 +1554,55 @@ const ans = arrToTree(list);
 
 console.log(JSON.stringify(ans) === JSON.stringify(result)); // true
 ```
+
+## 37. 如何监听一个对象是否被 GC
+
+### FinalizationRegistry 类:
+
+当一个在注册表中注册的对象被回收时，请求在某个时间点上调用一个清理回调。（清理回调有时被称为 finalizer）
+
+你可以通过调用 register 方法，注册任何你想要清理回调的对象，传入该对象和所含的值;
+
+```ts
+let value1 = 'a';
+let value2 = 'b';
+
+//创建一个FinalizationRegistry 对象
+const registry = new FinalizationRegistry(val => {
+  //val为使用FinalizationRegistry 对象的register方法注册对象时，传入的第二个参数的值
+  if (val === 'value1') {
+    console.log('value1 被销毁');
+  }
+  if (val === 'value2') {
+    console.log('value2 对象被销毁');
+  }
+});
+
+//注册对象
+registry.register(value1, 'value1');
+registry.register(value2, 'value2');
+value1 = null;
+value2 = null;
+```
+
+### WeakRef 类
+
+如果我们默认将一个对象赋值给另外一个引用，那么这个引用是一个强引用：
+
+如果我们希望是一个弱引用的话，可以使用 WeakRef；
+
+```ts
+let obj = {
+  name: 'aaa',
+};
+
+const foo = new WeakRef(obj);
+
+console.log(foo.deref());
+
+setTimeout(() => {
+  console.log(foo.deref());
+}, 1000);
+
+obj = null;
+```
