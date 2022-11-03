@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/li-jia-nan/Learning-notes/issues"
   },
-  "homepage": "https://github.com/li-jia-nan/Learning-notes#readme"
+  "homepage": "https://github.com/li-jia-nan/Learning-notes#readme",
+  "devDependencies": {
+    "@types/node": "^18.11.9"
+  }
 }

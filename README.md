@@ -235,31 +235,31 @@ Math.max(); // -Infinity
 
 - **函数节流**
 
-```js
+```ts
 // 方法一：定时器
-const throttle = function (fn, delay) {
-  let timer = null;
+const throttle = function (fn: Function, delay: number) {
+  let timer: NodeJS.Timer | null = null;
   return function () {
     const context = this;
-    const args = arguments;
     if (!timer) {
       timer = setTimeout(() => {
-        fn.apply(context, args);
-        clearTimeout(timer);
+        fn.apply(context, arguments);
+        if (timer) {
+          clearTimeout(timer);
+        }
       }, delay);
     }
   };
 };
 
 // 方法二：时间戳
-const throttle2 = function (fn, delay) {
+const throttle2 = function (fn: Function, delay: number) {
   let preTime = Date.now();
   return function () {
     const context = this;
-    let args = arguments;
     let doTime = Date.now();
     if (doTime - preTime >= delay) {
-      fn.apply(context, args);
+      fn.apply(context, arguments);
       preTime = Date.now();
     }
   };
