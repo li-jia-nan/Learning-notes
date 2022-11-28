@@ -46,15 +46,15 @@ display: -webkit-box;
 
 ## 3. 复制到粘贴板
 
-```js
-const clipboardWriteText = copyText => {
+```ts
+const clipboardWriteText = (copyText: string) => {
   // 判断是否存在clipboard并且是安全的协议
   if (navigator.clipboard && window.isSecureContext) {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       navigator.clipboard
         .writeText(copyText)
         .then(() => {
-          resolve(true);
+          resolve();
         })
         .catch(() => {
           reject(new Error('复制失败'));
@@ -72,11 +72,11 @@ const clipboardWriteText = copyText => {
   document.body.append(textArea);
   textArea.focus();
   textArea.select();
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     // 执行复制命令并移除文本框
     if (document.execCommand('copy')) {
       document.execCommand('copy');
-      resolve(true);
+      resolve();
     } else {
       reject(new Error('复制失败'));
     }
@@ -87,7 +87,7 @@ const clipboardWriteText = copyText => {
 
 使用：
 
-```js
+```ts
 clipboardWriteText('balabalabala')
   .then(() => {
     console.log('复制成功');
@@ -288,7 +288,7 @@ function debounce(func: Function, wait: number) {
 
 一般我们执行分支合并，需要执行下面两个命令：
 
-```ts
+```bash
 git pull // 拉取需要合并的分支
 git merge // 合并进目标分支
 ```
@@ -301,7 +301,7 @@ Gitlab 选择了最后一个命令来命名，叫 `Merge Request`。
 
 正确的起名应该是：
 
-```ts
+```bash
 Merge Request // 请求把代码合并进去
 Push Request // 请求把代码推进去
 ```
@@ -589,6 +589,15 @@ const getQueryString = url => {
     }
   });
   return obj;
+};
+
+const getQueryString2 = (url: string) => {
+  if (!url.includes('?')) {
+    return null;
+  }
+  const ans = {};
+  url.replace(/([^?&=]+)=([^&]+)/g, (_, k, v) => (ans[k] = v));
+  return ans;
 };
 
 getQueryString(src);
