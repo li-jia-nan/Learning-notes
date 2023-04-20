@@ -476,7 +476,7 @@ function div(arg1, arg2) {
 
 顺便说一下，关于处理精度问题的解决方案，目前市面上已经有了很多较为成熟的库，比如 [`bignumber.js`](https://mikemcl.github.io/bignumber.js/)、[`decimal.js`](http://mikemcl.github.io/decimal.js/)、以及 [`big.js`](http://mikemcl.github.io/big.js/) 等，这些库不仅解决了浮点数的运算精度问题，还支持了大数运算，并且修复了原生 toFixed 结果不准确的问题。我们可以根据自己的需求来选择对应的工具。
 
-最后提醒一下：这玩意儿也就面试的时候写一下，强烈建议业务中还是用现成的库，出了问题我可不负责的嗷，唉，我好菜啊
+最后提醒一下：这玩意儿也就面试的时候写一下，强烈建议业务中还是用现成的库，出了问题我可不负责的嗷
 
 ## 18. 垂直居中 textarea
 
