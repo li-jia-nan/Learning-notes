@@ -1534,14 +1534,14 @@ const result: TreeItem[] = [
 ```ts
 const arrToTree = (arr: ArrayItem[]): TreeItem[] => {
   const res: TreeItem[] = [];
-  const map = new Map<PropertyKey, TreeItem>();
+  const map = new Map<number, TreeItem>();
   arr.forEach(item => {
     map.set(item.id, item);
   });
   arr.forEach(item => {
     const parent = map.get(item.pid);
     if (parent) {
-      if (parent?.children) {
+      if (parent.children) {
         parent.children.push(item);
       } else {
         parent.children = [item];
