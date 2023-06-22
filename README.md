@@ -704,8 +704,8 @@ const isValid2 = (s: string): boolean => {
 `hasOwnProperty`方法会返回一个布尔值，指示对象自身属性中是否具有指定的属性（不包含原型上的属性）：
 
 ```js
-({ a: 1 }.hasOwnProperty('a')); // true
-({ a: 1 }.hasOwnProperty('toString')); // false
+({ a: 1 }).hasOwnProperty('a'); // true
+({ a: 1 }).hasOwnProperty('toString'); // false
 ```
 
 ### 2. in 操作符
@@ -1477,7 +1477,7 @@ function reconcileChildrenArray(
 interface ArrayItem {
   id: number;
   name: string;
-  pid: number;
+  parentId: number;
 }
 
 interface TreeItem extends ArrayItem {
@@ -1486,11 +1486,11 @@ interface TreeItem extends ArrayItem {
 
 // 输入
 const list: ArrayItem[] = [
-  { id: 1, name: '部门1', pid: 0 },
-  { id: 2, name: '部门2', pid: 1 },
-  { id: 3, name: '部门3', pid: 1 },
-  { id: 4, name: '部门4', pid: 3 },
-  { id: 5, name: '部门5', pid: 4 },
+  { id: 1, name: '部门1', parentId: 0 },
+  { id: 2, name: '部门2', parentId: 1 },
+  { id: 3, name: '部门3', parentId: 1 },
+  { id: 4, name: '部门4', parentId: 3 },
+  { id: 5, name: '部门5', parentId: 4 },
 ];
 
 // 输出
@@ -1498,27 +1498,27 @@ const result: TreeItem[] = [
   {
     id: 1,
     name: '部门1',
-    pid: 0,
+    parentId: 0,
     children: [
       {
         id: 2,
         name: '部门2',
-        pid: 1,
+        parentId: 1,
       },
       {
         id: 3,
         name: '部门3',
-        pid: 1,
+        parentId: 1,
         children: [
           {
             id: 4,
             name: '部门4',
-            pid: 3,
+            parentId: 3,
             children: [
               {
                 id: 5,
                 name: '部门5',
-                pid: 4,
+                parentId: 4,
               },
             ],
           },
@@ -1532,14 +1532,14 @@ const result: TreeItem[] = [
 实现：
 
 ```ts
-const arrToTree = (arr: ArrayItem[]): TreeItem[] => {
-  const res: TreeItem[] = [];
+const convert = (arr: ArrayItem[]): TreeItem[] => {
+  const result: TreeItem[] = [];
   const map = new Map<number, TreeItem>();
   arr.forEach(item => {
     map.set(item.id, item);
   });
   arr.forEach(item => {
-    const parent = map.get(item.pid);
+    const parent = map.get(item.parentId);
     if (parent) {
       if (parent.children) {
         parent.children.push(item);
@@ -1547,17 +1547,17 @@ const arrToTree = (arr: ArrayItem[]): TreeItem[] => {
         parent.children = [item];
       }
     } else {
-      res.push(item);
+      result.push(item);
     }
   });
-  return res;
+  return result;
 };
 ```
 
 测试结果：
 
 ```ts
-const ans = arrToTree(list);
+const ans = convert(list);
 
 console.log(JSON.stringify(ans) === JSON.stringify(result)); // true
 ```
