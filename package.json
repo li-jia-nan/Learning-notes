@@ -18,6 +18,6 @@
   },
   "homepage": "https://github.com/li-jia-nan/Learning-notes#readme",
   "devDependencies": {
-    "@types/node": "^20.11.6"
+    "@types/node": "^20.14.10"
   }
 }
