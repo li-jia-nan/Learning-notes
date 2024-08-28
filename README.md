@@ -233,53 +233,38 @@ Math.max(); // -Infinity
 
 ## 12. 节流与防抖
 
-- **函数节流**
+- **节流**
 
-```ts
-// 方法一：定时器
-const throttle = function (fn: Function, delay: number) {
-  let timer: NodeJS.Timer | null = null;
-  return function () {
-    const context = this;
+```tsx
+const throttle = <T extends any[]>(func: (...args: T) => void, wait: number) => {
+  let timer: ReturnType<typeof setTimeout> | null = null;
+  return (...args: T) => {
     if (!timer) {
       timer = setTimeout(() => {
-        fn.apply(context, arguments);
+        func(...args);
         if (timer) {
           clearTimeout(timer);
         }
-      }, delay);
-    }
-  };
-};
-
-// 方法二：时间戳
-const throttle2 = function (fn: Function, delay: number) {
-  let preTime = Date.now();
-  return function () {
-    const context = this;
-    let doTime = Date.now();
-    if (doTime - preTime >= delay) {
-      fn.apply(context, arguments);
-      preTime = Date.now();
+      }, wait);
     }
   };
 };
 ```
 
-- **函数防抖**
+- **防抖**
 
-```ts
-function debounce(func: Function, wait: number) {
-  let timeout: NodeJS.Timer | null = null;
-  return function () {
-    if (timeout) {
-      clearTimeout(timeout);
+```tsx
+const debounce = <T extends any[]>(func: (...args: T) => void, wait: number) => {
+  let timer: ReturnType<typeof setTimeout> | null = null;
+  return (...args: T) => {
+    if (timer) {
+      clearTimeout(timer);
     }
-    timeout = setTimeout(() => {
-      func.apply(this, arguments);
+    timer = setTimeout(() => {
+      func(...args);
     }, wait);
   };
-}
+};
 ```
 
 ## 11. 冷知识：pr（pull Request）和 mr（merge Request）有什么区别？
