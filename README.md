@@ -717,24 +717,27 @@ Reflect.has({ a: 1 }, 'toString'); // true
 
 这个方法有些缺点，懂的都懂，不再废话了
 
-```js
+```ts
 const newData = JSON.parse(JSON.stringify(data));
 ```
 
 ### 2. 加强版
 
-```js
-const deepClone = obj => {
-  const ans = Array.isArray(obj) ? [] : {};
-  for (const key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      ans[key] = obj[key] && typeof obj[key] === 'object' ? deepClone(obj[key]) : obj[key];
+```ts
+const deepClone = (data: any) => {
+  const result = Array.isArray(data) ? [] : {};
+  for (const key in data) {
+    if (data.hasOwnProperty(key)) {
+      const value = data[key];
+      if (value && typeof value === 'object') {
+        result[key] = deepClone(value);
+      } else {
+        result[key] = value;
+      }
     }
   }
-  return ans;
+  return result;
 };
-
-const newData = deepClone(data);
 ```
 
 ### 3. 非主流版
