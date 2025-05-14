@@ -540,7 +540,7 @@ window.onload = update;
 - type 不支持继承，只能通过交叉类型合并，interface 可以通过继承扩展，也可以通过重载扩展
 - type 无法被实现 implements，而接口可以被派生类实现
 - type 重名会抛出错误，interface 重名会产生合并
-- interface 性能比 type 好一点（社区有讨论过这点，争议比较大，不管对不对，我贴出来兄弟们自己判断吧）
+- interface 性能比 type 好一点（社区有讨论过这点，但是没有数据支撑，争议比较大）
 
 ## 20. gulp 和 webpack 的区别
 
